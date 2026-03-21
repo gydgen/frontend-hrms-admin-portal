@@ -40,3 +40,17 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+# Dependencies
+node_modules
+
+# Angular build/cache
+.angular
+dist
+
+# IDE
+.idea
+.vscode/*
+!.vscode/extensions.json
+
+# Misc
+*.log
