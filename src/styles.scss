@@ -1,11 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
 @use 'bootstrap/scss/bootstrap';
+@use '@angular/material' as mat;
+
+// External CSS and fonts (CSS imports - valid and not deprecated)
+@import url('https://fonts.googleapis.com/css2?family=Inter');
+@import 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,300,0,0';
+@import '@angular/cdk/overlay-prebuilt.css';
 // Include theming for Angular Material with `mat.theme()`.
 // This Sass mixin will define CSS variables that are used for styling Angular Material
 // components according to the Material 3 design spec.
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
-@use '@angular/material' as mat;
 
 html {
   @include mat.theme(
