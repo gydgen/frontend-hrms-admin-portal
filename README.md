@@ -51,18 +51,18 @@ The backend API repository can be found at: [worksmart-hr-backend](https://githu
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | Angular 17+ (Standalone Components) |
-| Styling | TailwindCSS 3.x |
-| State Management | Angular Signals / NgRx |
-| HTTP Client | Angular HttpClient |
-| Forms | Angular Reactive Forms |
-| Charts | ApexCharts |
-| Authentication | JWT with HTTP Interceptors |
-| Mobile | Capacitor (Android & iOS) |
-| Testing | Jest / Karma |
-| Linting | ESLint + Prettier |
+| Layer            | Technology                          |
+| ---------------- | ----------------------------------- |
+| Framework        | Angular 17+ (Standalone Components) |
+| Styling          | TailwindCSS 3.x                     |
+| State Management | Angular Signals / NgRx              |
+| HTTP Client      | Angular HttpClient                  |
+| Forms            | Angular Reactive Forms              |
+| Charts           | ApexCharts                          |
+| Authentication   | JWT with HTTP Interceptors          |
+| Mobile           | Capacitor (Android & iOS)           |
+| Testing          | Jest / Karma                        |
+| Linting          | ESLint + Prettier                   |
 
 ---
 
@@ -131,6 +131,7 @@ The application will be available at `http://localhost:4200`.
 Create or update the environment files before running the application.
 
 **`src/environments/environment.ts`**
+
 ```typescript
 export const environment = {
   production: false,
@@ -140,6 +141,7 @@ export const environment = {
 ```
 
 **`src/environments/environment.production.ts`**
+
 ```typescript
 export const environment = {
   production: true,
@@ -153,6 +155,7 @@ export const environment = {
 To avoid CORS issues during local development, a proxy config is included:
 
 **`proxy.conf.json`**
+
 ```json
 {
   "/api": {
@@ -164,6 +167,7 @@ To avoid CORS issues during local development, a proxy config is included:
 ```
 
 Run with proxy:
+
 ```bash
 ng serve --proxy-config proxy.conf.json
 ```
@@ -172,14 +176,14 @@ ng serve --proxy-config proxy.conf.json
 
 ## User Roles
 
-| Role | Access Level |
-|---|---|
-| System Admin | Full system access, user management, audit logs |
-| HR Manager | Employee records, leave management, approvals, reports |
+| Role            | Access Level                                               |
+| --------------- | ---------------------------------------------------------- |
+| System Admin    | Full system access, user management, audit logs            |
+| HR Manager      | Employee records, leave management, approvals, reports     |
 | Finance Officer | Payroll processing, payslip generation, compliance exports |
-| Department Head | Team attendance, leave approvals, performance reviews |
-| Employee | Self-service portal (payslips, leave, profile, attendance) |
-| Auditor | Read-only access to logs and compliance reports |
+| Department Head | Team attendance, leave approvals, performance reviews      |
+| Employee        | Self-service portal (payslips, leave, profile, attendance) |
+| Auditor         | Read-only access to logs and compliance reports            |
 
 Route guards enforce role-based access on every protected page.
 
@@ -215,6 +219,7 @@ npx cap open android
 All API requests are made to the backend using the `apiBaseUrl` defined in the environment file. Every authenticated request automatically attaches the JWT token via an HTTP interceptor.
 
 Base URL pattern:
+
 ```
 /api/v1/{resource}
 ```
@@ -251,3 +256,63 @@ This project is licensed under the MIT License. See the [LICENSE](./LICENSE) fil
 ---
 
 > Built for Ghana. Designed for growth. Powered by WorkSmart HR.
+
+# HRMS
+
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.2.
+
+## Development server
+
+To start a local development server, run:
+
+```bash
+ng serve
+```
+
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+
+## Code scaffolding
+
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+
+```bash
+ng generate component component-name
+```
+
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+
+```bash
+ng generate --help
+```
+
+## Building
+
+To build the project run:
+
+```bash
+ng build
+```
+
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+
+## Running unit tests
+
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+
+```bash
+ng test
+```
+
+## Running end-to-end tests
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
