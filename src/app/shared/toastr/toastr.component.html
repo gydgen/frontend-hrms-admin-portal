@@ -1,0 +1,38 @@
+@if(toastr$|async; as toastr){ @if(toastr.message){
+<div class="main">
+  <div class="toastr d-flex">
+    @if(toastr.type === 'error'){
+    <img src="assets\images\failed_toastr.png" alt="" />} @if(toastr.type ===
+    'success'){ <img src="assets\images\success_toastr1.svg" alt="" />}
+    <div class="paragraph">
+      {{ toastr.message }}
+    </div>
+    <span (click)="onClose()">
+      <img src="assets\images\close_icon.svg" alt="" />
+    </span>
+  </div>
+  <div
+    class="reader"
+    [ngStyle]="{
+      'background-color': toastr.type === 'error' ? '#F04438' : '#12B76A'
+    }"
+  ></div>
+</div>
+} }
+
+<!-- <div class="main">
+  <div class="toastr d-flex">
+    <img src="assets\images\success_toastr1.svg" alt="" />
+    <div class="paragraph">
+      This is the new login for the prince This is the new login for the prince
+    </div>
+
+    <img src="assets\images\close_icon.svg" alt="" class="close" />
+  </div>
+  <div
+    class="reader"
+    [ngStyle]="{
+      'background-color': '#F04438'
+    }"
+  ></div>
+</div> -->

@@ -1,4 +1,5 @@
-<button class="btn btn-primary">Hello World</button>
-
-<h1 class="animate__animated animate__bounce">An animated element</h1>
-<p-button label="Check" />
+<app-toastr />
+<router-outlet />
+@if (showLoader()) {
+  <app-general-loader />
+}
