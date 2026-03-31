@@ -1,0 +1,36 @@
+$minContentWidth: 512px;
+$backgroundWidth: 256px;
+$backgroundWidthXL: 384px;
+
+:host {
+	display: block;
+	min-height: 100vh;
+	position: relative;
+	background: url('https://a.mktgcdn.com/p/SvlnivTSyrpe5cz3NtwhXw874juAc7bUGI0XtFWn9EY/1560x878.png') center
+		no-repeat;
+	background-size: cover;
+
+	&::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.2);
+		z-index: 0;
+	}
+
+	> * {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+@media (min-width: 992px) {
+	:host {
+		background: url('https://a.mktgcdn.com/p/SvlnivTSyrpe5cz3NtwhXw874juAc7bUGI0XtFWn9EY/1560x878.png'); /* fallback */
+		background: url('https://a.mktgcdn.com/p/SvlnivTSyrpe5cz3NtwhXw874juAc7bUGI0XtFWn9EY/1560x878.png')
+				no-repeat center center fixed,
+			linear-gradient(-135deg, #6cdec749, #bbebe249, #e5548b49, #eab92749)
+				top right no-repeat;
+		background-size: cover, #{$backgroundWidth} 100%;
+	}
+}

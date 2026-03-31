@@ -1,15 +1,19 @@
 import {
   ApplicationConfig,
   inject,
+  provideAppInitializer,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
+import { TenantService } from './core/services/tenant.service';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { isActive, IsActiveMatchOptions, provideRouter, Router, withViewTransitions } from '@angular/router';
 import Aura from '@primeuix/themes/aura';
 import { definePreset } from '@primeuix/themes';
 import { routes } from './app.routes';
 import { providePrimeNG } from 'primeng/config';
 import { provideStore } from '@ngrx/store';
+import { jwtInterceptor } from './features/auth/interceptors/jwt.interceptor';
 
 const BlueAura = definePreset(Aura, {
   semantic: {
@@ -33,6 +37,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
+    provideAppInitializer(() => inject(TenantService).init()),
     provideRouter(routes, withViewTransitions({
         onViewTransitionCreated: ({ transition }) => {
             const router = inject(Router);
@@ -55,6 +60,7 @@ export const appConfig: ApplicationConfig = {
             preset: BlueAura,
         },
     }),
-    provideStore()
+    provideStore(),
+    provideHttpClient(withInterceptors([jwtInterceptor]))
 ],
 };

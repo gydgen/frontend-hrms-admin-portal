@@ -1,0 +1,29 @@
+$containerWidth: 384px;
+$logoSize: 56px;
+
+:host {
+	display: block;
+	height: 100vh;
+}
+
+#loginFormContainer {
+	width: $containerWidth;
+	max-width: 100%;
+}
+
+.logo {
+	height: $logoSize;
+	object-fit: cover;
+	border-radius: 8px;
+}
+
+.app-icon-card {
+	width: $logoSize;
+	height: $logoSize;
+	background: linear-gradient(135deg, #4f46e5, #7c3aed);
+
+	.app-icon-symbol {
+		font-size: 28px;
+		color: #ffffff;
+	}
+}

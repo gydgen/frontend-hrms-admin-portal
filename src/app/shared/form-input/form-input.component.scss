@@ -1,0 +1,306 @@
+.input-field {
+  font-family: "Inter";
+  font-style: normal;
+  margin-bottom: 1rem;
+
+  label {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #344054;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  input {
+    padding: 10px 14px;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid #d0d5dd;
+    // box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    border-radius: 8px;
+    width: 100%;
+  }
+  input::placeholder {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #667085;
+  }
+  input:focus {
+    // border-color: #6ce9a6;
+    // box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #f0faee;
+    outline: none; /* Remove default outline */
+  }
+  input:disabled {
+    background: #f9fafb;
+    border: 1px solid #d0d5dd;
+    // box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    cursor: not-allowed;
+  }
+  input .ng-touched .ng-invalid {
+    border-color: #d84b41da;
+    // box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #d92d20;
+    outline: none;
+  }
+}
+.input__field__password {
+  font-family: "Inter";
+  font-style: normal;
+  margin-bottom: 1rem;
+
+  label {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #344054;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .pass {
+    padding: 10px 14px;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid #d0d5dd;
+    // box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    border-radius: 8px;
+    width: 100%;
+    &:focus-within {
+      border: 1px solid #3b82f6;
+      box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #dbeafe;
+      outline: none;
+    }
+
+    input {
+      outline: none;
+      border: none;
+      width: 90%;
+    }
+    input::placeholder {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: #667085;
+    }
+
+    input:disabled {
+      background: #f9fafb;
+      border: 1px solid #d0d5dd;
+      //   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+      cursor: not-allowed;
+    }
+    button {
+      border: none;
+      background-color: inherit;
+    }
+  }
+}
+
+// .ng-invalid .ng-touched .ng-dirty {
+//   border-color: #d84b41da;
+//   //   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #d92d20;
+//   outline: none;
+// }
+textarea::placeholder {
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #667085;
+}
+
+textarea:focus {
+  //   border-color: #6ce9a6;
+  //   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #f0faee;
+  outline: none;
+}
+input:disabled {
+  background: #f9fafb;
+  border: 1px solid #d0d5dd;
+  //   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  cursor: not-allowed;
+}
+.email-block:focus-within {
+  //   border-color: #6ce9a6;
+  //   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #f0faee;
+  outline: none;
+}
+
+.email-block {
+  display: flex;
+  gap: 1rem;
+  input {
+    border: none;
+    width: 90%;
+  }
+}
+
+input:focus {
+  outline: none;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input.ng-touched.ng-invalid {
+  border-color: #d92d20 !important;
+  // box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #d92d20 !important;
+  outline: none !important;
+}
+
+textarea.ng-touched.ng-invalid {
+  border-color: #d92d20 !important;
+  // box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #d92d20 !important;
+  outline: none !important;
+}
+
+.email-block:has(input.ng-touched.ng-invalid) {
+  border-color: #d92d20 !important;
+  outline: none !important;
+}
+.pass:has(input.ng-touched.ng-invalid) {
+  border-color: #d92d20 !important;
+  outline: none !important;
+}
+.form-control {
+  box-shadow: none;
+}
+
+.otp-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.otp-field {
+  width: 80px;
+  height: 80px;
+  outline: none;
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 60px;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: #d0d5dd;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+}
+
+.valid-input {
+  border: 4px solid #bfdbfe !important;
+  color: #2563eb;
+}
+.code_paragraph {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #667085;
+}
+.checkbox-block {
+  margin-bottom: 1rem;
+  label {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #344054;
+  }
+  .check {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0.5rem;
+    max-height: 122px;
+    background: #ffffff;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    overflow-y: auto;
+    p {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 18px;
+      color: #374151;
+
+      margin: 0;
+    }
+  }
+}
+
+.card {
+  border: none;
+}
+.multi {
+  padding: 7px 14px !important;
+}
+
+label {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: #344054;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.p-multiselect {
+  width: 100%;
+}
+
+label {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: #344054;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+::ng-deep.mat-internal-form-field > label {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: #374151;
+}
+
+::ng-deep.mdc-checkbox__background {
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+  border-radius: 4px;
+}
+::ng-deep.mat-internal-form-field > label {
+  padding-left: 4px;
+}
+.required {
+  color: #d92d20;
+}
+
+input:not([type="password"]):focus,
+textarea:focus {
+  border: 1px solid #3b82f6;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05), 0px 0px 0px 4px #dbeafe;
+  outline: none;
+}
+
+input:disabled {
+  background: #f9fafb;
+  border: 1px solid #d0d5dd;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  cursor: not-allowed;
+}

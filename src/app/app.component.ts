@@ -6,26 +6,14 @@ import { GeneralLoaderComponent } from './shared/general-loader/general-loader.c
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, ToastrComponent, GeneralLoaderComponent],
-  templateUrl: './app.html',
-  styleUrl: './app.scss',
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
 })
-export class App {
+export class AppComponent {
   private readonly router = inject(Router);
   protected readonly title = signal('HRMS');
 
   showLoader = signal(false);
-  // showLoaderEffects = effect(() => {
-  //   console.log('Loader state changed:', this.showLoader());
-  // });
-  // constructor() {
-  //   this.router.events.subscribe((event) => {
-  //     if (event.constructor.name === 'NavigationStart') {
-  //       this.showLoader.set(true);
-  //     } else if (event.constructor.name === 'NavigationEnd') {
-  //       this.showLoader.set(false);
-  //     }
-  //   });
-  // }
   showLoaderEffects = effect(() => {
     console.log('Loader state changed:', this.showLoader());
     this.router.events.subscribe((event) => {
@@ -33,6 +21,8 @@ export class App {
         this.showLoader.set(true);
       } else if (event.constructor.name === 'NavigationEnd') {
         this.showLoader.set(false);
+      }else{
+        this.showLoader.set(false); // Ensure loader is hidden for any other navigation events
       }
     });
   });

@@ -1,0 +1,35 @@
+<div class="d-flex align-items-center justify-content-center justify-content-lg-end vh-100">
+  <div id="loginFormContainer" class="card rounded-5 shadow">
+    <div class="card-body p-5 pb-6">
+      <div class="d-flex flex-column align-items-center justify-content-center mb-4 gap-2">
+        <div class="app-icon-card d-flex align-items-center justify-content-center rounded-4 shadow-sm">
+          <img src="logo.svg" alt="Smart HRMS" width="64" height="64" />
+        </div>
+        <h5 class="text-center fw-semibold mb-0">Smart HRMS</h5>
+      </div>
+      <form class="mb-4" [formGroup]="form">
+        <app-form-input name="email" [formGroup]="form" type="text" placeholder="Email">
+        </app-form-input>
+        <app-form-input name="password" [formGroup]="form" type="password" placeholder="Password">
+        </app-form-input>
+
+        <p class="mb-3 text-end ">
+          <a [routerLink]="['/']" class="pointer text-decoration-none">
+         Forget Password?
+          </a>
+        </p>
+        <div class="d-flex justify-content-center">
+          <app-button-create class="w-100" [label]="'Login'" 	(click)="login()"></app-button-create>
+        </div>
+      </form>
+      <!-- <p class="mb-0">
+				<small>
+					{{ 'AUTH.LABELS.REGISTERED' | transloco | apwUcfirst }}
+					<a [routerLink]="[]" class="pointer">{{
+						'AUTH.LABELS.REGISTER_NOW' | transloco | apwUcfirst
+					}}</a>
+				</small>
+			</p> -->
+    </div>
+  </div>
+</div>
