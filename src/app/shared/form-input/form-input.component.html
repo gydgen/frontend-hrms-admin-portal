@@ -1,50 +1,49 @@
 @if (isSelect) {
-<div class="form_field input-field" [formGroup]="formGroup">
-  <label for="priority">{{ label }}</label>
+  <div class="form_field input-field" [formGroup]="formGroup">
+    <label for="priority">{{ label }}</label>
 
-  <select
-    class="form-select text-primary"
-    aria-label="Default select example"
-    [formControlName]="name"
-    (change)="onChange($event)"
-  >
-    @for(option of options(); track $index){
-    <option [value]="option['id']">{{ option["name"] }}</option>
-    }
-  </select>
-</div>
-} @else if(isOption){
-<div class="form_field input-field" [formGroup]="formGroup">
-  <label for="priority">{{ label }}</label>
-
-  <select
-    class="form-select text-primary"
-    aria-label="Default select example"
-    [formControlName]="name"
-  >
-    @if (selections.length){ @for(option of selections; track $index){
-    <option [value]="option">{{ option | titlecase }}</option>
-    }}
-  </select>
-</div>
-
-}@else if(isCheckbox){
-
-<section class="checkbox-block" [formGroup]="formGroup">
-  <label>{{ label }}</label>
-  <div class="check">
-    @if (checks.length){ @for(option of checks; track $index){
-    <p>
-      <mat-checkbox formControlName="name">{{
-        option | titlecase
-      }}</mat-checkbox>
-    </p>
-    }}
+    <select
+      class="form-select text-primary"
+      aria-label="Default select example"
+      [formControlName]="name"
+      (change)="onChange($event)"
+    >
+      @for (option of options(); track $index) {
+        <option [value]="option['id']">{{ option['name'] }}</option>
+      }
+    </select>
   </div>
-</section>
+} @else if (isOption) {
+  <div class="form_field input-field" [formGroup]="formGroup">
+    <label for="priority">{{ label }}</label>
 
-}@else if(isMultiSelect){
-<!-- <div [formGroup]="formGroup" class="card flex justify-center">
+    <select
+      class="form-select text-primary"
+      aria-label="Default select example"
+      [formControlName]="name"
+    >
+      @if (selections.length) {
+        @for (option of selections; track $index) {
+          <option [value]="option">{{ option | titlecase }}</option>
+        }
+      }
+    </select>
+  </div>
+} @else if (isCheckbox) {
+  <section class="checkbox-block" [formGroup]="formGroup">
+    <label>{{ label }}</label>
+    <div class="check">
+      @if (checks.length) {
+        @for (option of checks; track $index) {
+          <p>
+            <mat-checkbox formControlName="name">{{ option | titlecase }}</mat-checkbox>
+          </p>
+        }
+      }
+    </div>
+  </section>
+} @else if (isMultiSelect) {
+  <!-- <div [formGroup]="formGroup" class="card flex justify-center">
   <label>{{ label }}</label>
   <div class="form-control multi">
     <p-multiselect
@@ -57,102 +56,98 @@
     />
   </div>
 </div> -->
-
-} @else if(type === "email"){
-<div class="input-field" [formGroup]="formGroup">
-  <label>{{ label }} @if(isRequired){<span class="required">*</span>}</label>
-  <input
-    [name]="name"
-    [type]="type"
-    [placeholder]="placeholder"
-    [formControlName]="name"
-  />
-</div>
-} @else if(type === "number"){
-<div class="input-field" [formGroup]="formGroup">
-  <label>{{ label }} @if(isRequired){<span class="required">*</span>}</label>
-  <input
-    [name]="name"
-    type="number"
-    [placeholder]="placeholder"
-    [formControlName]="name"
-  />
-</div>
-} @else if(type === "password"){
-<div class="input__field__password" [formGroup]="formGroup">
-  <label>{{ label }}</label>
-  <div class="pass d-flex justify-content-between">
-    <input
+} @else if (type === 'email') {
+  <div class="input-field" [formGroup]="formGroup">
+    <label
+      >{{ label }}
+      @if (isRequired) {
+        <span class="required">*</span>
+      }
+    </label>
+    <input [name]="name" [type]="type" [placeholder]="placeholder" [formControlName]="name" />
+  </div>
+} @else if (type === 'number') {
+  <div class="input-field" [formGroup]="formGroup">
+    <label
+      >{{ label }}
+      @if (isRequired) {
+        <span class="required">*</span>
+      }
+    </label>
+    <input [name]="name" type="number" [placeholder]="placeholder" [formControlName]="name" />
+  </div>
+} @else if (type === 'password') {
+  <div class="input__field__password" [formGroup]="formGroup">
+    <label>{{ label }}</label>
+    <div class="pass d-flex justify-content-between">
+      <input
+        [name]="name"
+        [type]="open ? 'password' : 'text'"
+        [placeholder]="placeholder"
+        [formControlName]="name"
+      />
+      @if (visible) {
+        <button (click)="visibility()">
+          @if (open) {
+            <span class="material-symbols-outlined">visibility</span>
+          } @else {
+            <span class="material-symbols-outlined">visibility_off</span>
+          }
+        </button>
+      }
+    </div>
+  </div>
+} @else if (type === 'contact') {
+  <div class="form-control email-block" [formGroup]="formGroup">
+    <span> <img src="assets\icons\email.svg" alt="" class="icon" /></span>
+    <input type="email" placeholder="Enter your email" [name]="name" [formControlName]="name" />
+  </div>
+} @else if (type === 'textform') {
+  <div [formGroup]="formGroup">
+    <label>{{ label }}</label>
+    <textarea
+      [placeholder]="placeholder"
+      class="form-control"
       [name]="name"
-      [type]="open ? 'password' : 'text'"
+      [formControlName]="name"
+      rows="4"
+    ></textarea>
+  </div>
+} @else if (type === 'phone') {
+  <div class="email-block form-control" [formGroup]="formGroup">
+    <span> <img src="assets\icons\tel.svg" alt="" class="icon" /></span>
+    <input
+      type="text"
+      pattern="\d*"
+      inputmode="numeric"
       [placeholder]="placeholder"
       [formControlName]="name"
     />
-    @if(visible){<button (click)="visibility()">
-      @if(open){<mat-icon>visibility</mat-icon>}@else{<mat-icon>visibility_off</mat-icon>}</button
-    >}
   </div>
-</div>
-
-}@else if(type === "contact"){
-<div class="form-control email-block" [formGroup]="formGroup">
-  <span> <img src="assets\icons\email.svg" alt="" class="icon" /></span>
-  <input
-    type="email"
-    placeholder="Enter your email"
-    [name]="name"
-    [formControlName]="name"
-  />
-</div>
-
-} @else if(type === "textform"){
-<div [formGroup]="formGroup">
-  <label>{{ label }}</label>
-  <textarea
-    [placeholder]="placeholder"
-    class="form-control"
-    [name]="name"
-    [formControlName]="name"
-    rows="4"
-  ></textarea>
-</div>
-
-}@else if(type === "phone"){
-<div class="email-block form-control" [formGroup]="formGroup">
-  <span> <img src="assets\icons\tel.svg" alt="" class="icon" /></span>
-  <input
-    type="text"
-    pattern="\d*"
-    inputmode="numeric"
-    [placeholder]="placeholder"
-    [formControlName]="name"
-  />
-</div>
-} @else if(type === "code"){
-<div class="otp-container">
-  <input
-    class="otp-field"
-    *ngFor="let digit of otpArray; let i = index"
-    #otpInput
-    
-    type="text"
-    maxlength="1"
-    [ngClass]="{ 'valid-input': otp[i] }"
-    [value]="otp[i] || ''"
-    (input)="onInput($event, i)"
-    (keydown)="onKeyDown($event, i)"
-    (paste)="onPaste($event)"
-    autocomplete="off"
-  />
-</div>
-} @else{
-<div class="input-field" [formGroup]="formGroup">
-  <label>{{ label }}@if(isRequired){<span class="required">*</span>}</label>
-  <input
-    [name]="name"
-    [type]="type"
-    [placeholder]="placeholder"
-    [formControlName]="name"
-  />
-</div>
+} @else if (type === 'code') {
+  <div class="otp-container">
+    <input
+      class="otp-field"
+      *ngFor="let digit of otpArray; let i = index"
+      #otpInput
+      type="text"
+      maxlength="1"
+      [ngClass]="{ 'valid-input': otp[i] }"
+      [value]="otp[i] || ''"
+      (input)="onInput($event, i)"
+      (keydown)="onKeyDown($event, i)"
+      (paste)="onPaste($event)"
+      autocomplete="off"
+    />
+  </div>
+} @else {
+  <div class="input-field" [formGroup]="formGroup">
+    <label
+      >{{ label }}
+      @if (isRequired) {
+        <span class="required">*</span>
+      }
+    </label>
+    <input [name]="name" [type]="type" [placeholder]="placeholder" [formControlName]="name" />
+  </div>
 }

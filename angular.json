@@ -29,6 +29,8 @@
               }
             ],
             "styles": [
+                "node_modules/tailwindcss/index.css",
+                "node_modules/tailwindcss-primeui/v4/index.css",
                 "node_modules/@angular/cdk/overlay-prebuilt.css",
                 "src/styles.scss"
               ],
@@ -92,6 +94,8 @@
               }
             ],
             "styles": [
+                "node_modules/tailwindcss/index.css",
+                "node_modules/tailwindcss-primeui/v4/index.css",
                 "node_modules/@angular/cdk/overlay-prebuilt.css",
                 "src/styles.scss"
               ],

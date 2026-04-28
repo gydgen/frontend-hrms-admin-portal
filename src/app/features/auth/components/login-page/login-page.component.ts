@@ -1,6 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -9,6 +16,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormInputComponent } from '../../../../shared/form-input/form-input.component';
 import { ButtonCreateComponent } from '../../../../shared/button/button-create.component';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from '../../../../shared/toastr/toastr.service';
 
 @Component({
   selector: 'app-login-page',
@@ -28,10 +36,10 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './login-page.component.scss',
 })
 export class LoginPageComponent {
-
   #fb = inject(FormBuilder);
   #router = inject(Router);
   #authSvc = inject(AuthService);
+  #toastr = inject(ToastrService);
 
   loading = false;
 
@@ -40,15 +48,17 @@ export class LoginPageComponent {
     password: [null, Validators.required],
   });
 
-
   async login() {
     this.loading = true;
     const { email, password } = this.form.value;
     try {
       await this.#authSvc.login(email, password);
-      this.#router.navigate(['/']);
+      this.#toastr.triggerToastr('success', 'Login successful');
+
+      this.#router.navigate(['/dashboard']);
     } catch (error) {
-    throw error;
+      this.#toastr.triggerToastr('error', 'Login failed');
+      throw error;
     }
     this.loading = false;
   }

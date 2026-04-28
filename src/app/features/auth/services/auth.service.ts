@@ -197,7 +197,7 @@ export class AuthService {
    * @returns True if logged in, false otherwise.
    */
   isLoggedIn(): boolean {
-    return dayjs().isBefore(this.getExpiration());
+    return !!this.token();
   }
 
   /**
@@ -253,9 +253,7 @@ export class AuthService {
   getUser(): Observable<User | null> {
     return this.#http.get<User>(`${environment.apiUrl}/users/me`).pipe(
       catchError((error) => {
-        console.error(error);
-        this.logout();
-        this.#router.navigateByUrl(LOGIN_ROUTE);
+        console.error('getUser error:', error);
         return of(null);
       }),
     );

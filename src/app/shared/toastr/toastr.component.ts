@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
-export type Type = 'success' | 'error';
+export type Type = 'success' | 'error' | 'info';
 export interface Alert {
   type: Type;
   message: string;

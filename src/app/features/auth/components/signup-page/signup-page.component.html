@@ -1,1 +1,136 @@
-<p>signup-page works!</p>
+<div class="d-flex align-items-center justify-content-center justify-content-lg-end vh-100">
+  <div id="signupFormContainer" class="card rounded-5 shadow">
+    <div class="card-body p-5">
+      <!-- Header -->
+      <div class="d-flex flex-column align-items-center justify-content-center mb-4 gap-2">
+        <div
+          class="app-icon-card d-flex align-items-center justify-content-center rounded-4 shadow-sm"
+        >
+          <img src="logo.svg" alt="Smart HRMS" width="64" height="64" />
+        </div>
+        <h5 class="text-center fw-semibold mb-0">Create your account</h5>
+        <p class="text-muted small text-center mb-0">Join thousands of HR teams on Smart HRMS</p>
+      </div>
+
+      <!-- Step indicator -->
+      <div class="step-indicator mb-4">
+        <div class="step-indicator__track">
+          <div class="step-indicator__fill" [style.width]="step() === 1 ? '50%' : '100%'"></div>
+        </div>
+        <div class="d-flex justify-content-between mt-1">
+          <span class="step-indicator__label" [class.active]="step() === 1">1. Your details</span>
+          <span class="step-indicator__label" [class.active]="step() === 2">2. Set password</span>
+        </div>
+      </div>
+
+      <form [formGroup]="form">
+        <!-- ── Step 1 ─────────────────────────────── -->
+        @if (step() === 1) {
+          <div class="row g-2 mb-1">
+            <div class="col-6">
+              <app-form-input
+                name="firstName"
+                [formGroup]="form"
+                type="text"
+                placeholder="First name"
+              />
+            </div>
+            <div class="col-6">
+              <app-form-input
+                name="lastName"
+                [formGroup]="form"
+                type="text"
+                placeholder="Last name"
+              />
+            </div>
+          </div>
+
+          <app-form-input name="email" [formGroup]="form" type="text" placeholder="Work email" />
+
+          <app-form-input
+            name="companyName"
+            [formGroup]="form"
+            type="text"
+            placeholder="Company name"
+          />
+
+          <div class="d-flex justify-content-center mt-3">
+            <app-button-create class="w-100" label="Continue →" (click)="nextStep()" />
+          </div>
+        }
+
+        <!-- ── Step 2 ─────────────────────────────── -->
+        @if (step() === 2) {
+          <app-form-input
+            name="password"
+            [formGroup]="form"
+            type="password"
+            placeholder="Password"
+          />
+
+          <!-- Password strength hint -->
+          <p class="password-hint small text-muted mb-2">
+            Min 12 chars · uppercase · lowercase · special character
+          </p>
+
+          <app-form-input
+            name="confirmPassword"
+            [formGroup]="form"
+            type="password"
+            placeholder="Confirm password"
+          />
+
+          @if (passwordMismatch) {
+            <p class="text-danger small mt-1 mb-2">Passwords do not match.</p>
+          }
+
+          <!-- Terms -->
+          <div class="form-check mb-3 mt-2">
+            <input
+              id="agreeTerms"
+              type="checkbox"
+              class="form-check-input"
+              formControlName="agreeTerms"
+            />
+            <label class="form-check-label small" for="agreeTerms">
+              I agree to the
+              <a href="#" class="text-decoration-none">Terms of Service</a> and
+              <a href="#" class="text-decoration-none">Privacy Policy</a>
+            </label>
+            @if (form.get('agreeTerms')?.invalid && form.get('agreeTerms')?.touched) {
+              <p class="text-danger small mb-0">You must accept the terms to continue.</p>
+            }
+          </div>
+
+          <!-- Error banner -->
+          @if (errorMessage()) {
+            <div class="alert alert-danger py-2 small mb-3">{{ errorMessage() }}</div>
+          }
+
+          <div class="d-flex gap-2">
+            <button
+              type="button"
+              class="btn btn-outline-secondary flex-shrink-0 back-btn"
+              (click)="step.set(1)"
+            >
+              ← Back
+            </button>
+            <app-button-create
+              class="flex-grow-1"
+              label="Create account"
+              [isLoading]="loading()"
+              [disabled]="loading()"
+              (click)="signup()"
+            />
+          </div>
+        }
+      </form>
+
+      <!-- Footer link -->
+      <p class="text-center small mt-4 mb-0 text-muted">
+        Already have an account?
+        <a routerLink="../login" class="text-decoration-none fw-semibold">Sign in</a>
+      </p>
+    </div>
+  </div>
+</div>

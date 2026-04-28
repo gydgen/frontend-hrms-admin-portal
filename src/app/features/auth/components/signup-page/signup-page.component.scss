@@ -1,0 +1,60 @@
+$containerWidth: 440px;
+$logoSize: 56px;
+
+:host {
+  display: block;
+  height: 100vh;
+}
+
+#signupFormContainer {
+  width: $containerWidth;
+  max-width: 100%;
+}
+
+.app-icon-card {
+  width: $logoSize;
+  height: $logoSize;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  flex-shrink: 0;
+}
+
+.step-indicator {
+  &__track {
+    height: 4px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  &__fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4f46e5, #818cf8);
+    border-radius: 999px;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__label {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-weight: 500;
+    transition: color 0.2s;
+
+    &.active {
+      color: #4f46e5;
+      font-weight: 700;
+    }
+  }
+}
+
+.password-hint {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin-top: -4px;
+}
+
+.back-btn {
+  padding: 10px 18px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
