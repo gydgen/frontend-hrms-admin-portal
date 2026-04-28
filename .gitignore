@@ -54,7 +54,8 @@ dist
 
 # Misc
 *.log
-# Agent
+
+# Agents
 .claude/
-.github/
 .gemini/
+.github/
