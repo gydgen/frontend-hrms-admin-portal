@@ -1,0 +1,103 @@
+<header class="list-page__header">
+  <div>
+    <h1 class="section-header__title">Attendance</h1>
+    <p class="section-header__description">Review and manage employee attendance records.</p>
+  </div>
+
+  <a class="btn btn-primary" routerLink="add">Add Attendance</a>
+</header>
+
+<section class="list-page__content">
+  <div class="table-toolbar">
+    <p class="list-page__count">{{ tableRows.length }} attendance records</p>
+    <div class="table-filters">
+      <label class="table-filters__field">
+        <span>Search</span>
+        <input type="search" class="form-control form-control-sm" placeholder="Employee, date, time..." [(ngModel)]="searchTerm" />
+      </label>
+      <label class="table-filters__field">
+        <span>Date</span>
+        <select class="form-select form-select-sm" [(ngModel)]="dateFilter">
+          <option value="">All dates</option>
+          @for (date of dates; track date) {
+            <option [value]="date">{{ date }}</option>
+          }
+        </select>
+      </label>
+      <label class="table-filters__field">
+        <span>Status</span>
+        <select class="form-select form-select-sm" [(ngModel)]="statusFilter">
+          <option value="">All statuses</option>
+          @for (status of statuses; track status) {
+            <option [value]="status">{{ status }}</option>
+          }
+        </select>
+      </label>
+    </div>
+    <div class="table-toolbar__actions" aria-label="Attendance table states">
+      <button type="button" class="btn btn-sm" [class.btn-primary]="tableState === 'loaded'" [class.btn-outline-primary]="tableState !== 'loaded'" (click)="setTableState('loaded')">Loaded</button>
+      <button type="button" class="btn btn-sm" [class.btn-primary]="tableState === 'loading'" [class.btn-outline-primary]="tableState !== 'loading'" (click)="setTableState('loading')">Loading</button>
+      <button type="button" class="btn btn-sm" [class.btn-primary]="tableState === 'empty'" [class.btn-outline-primary]="tableState !== 'empty'" (click)="setTableState('empty')">Empty</button>
+      <button type="button" class="btn btn-sm" [class.btn-danger]="tableState === 'error'" [class.btn-outline-danger]="tableState !== 'error'" (click)="setTableState('error')">Error</button>
+    </div>
+  </div>
+
+  @if (hasError) {
+    <div class="empty-state empty-state--error">
+      <span class="material-symbols-outlined empty-state__icon">error</span>
+      <h2 class="empty-state__title">Unable to load attendance</h2>
+      <p class="empty-state__description">Something went wrong while loading attendance records.</p>
+      <div class="empty-state__actions">
+        <button type="button" class="btn btn-primary" (click)="setTableState('loaded')">Try Again</button>
+      </div>
+    </div>
+  } @else {
+    <p-table [value]="tableRows" [loading]="isLoading" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 25]" [tableStyle]="{ 'min-width': '58rem' }" styleClass="management-table">
+      <ng-template #header>
+        <tr>
+          <th pSortableColumn="id">
+            Record <p-sortIcon field="id" />
+          </th>
+          <th pSortableColumn="employee">
+            Employee <p-sortIcon field="employee" />
+          </th>
+          <th pSortableColumn="date">
+            Date <p-sortIcon field="date" />
+          </th>
+          <th pSortableColumn="clockIn">
+            Clock In <p-sortIcon field="clockIn" />
+          </th>
+          <th pSortableColumn="clockOut">
+            Clock Out <p-sortIcon field="clockOut" />
+          </th>
+          <th pSortableColumn="status">
+            Status <p-sortIcon field="status" />
+          </th>
+          <th class="management-table__actions-heading">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-record>
+        <tr>
+          <td>{{ record.id }}</td>
+          <td>{{ record.employee }}</td>
+          <td>{{ record.date }}</td>
+          <td>{{ record.clockIn }}</td>
+          <td>{{ record.clockOut }}</td>
+          <td><span [class]="getStatusClass(record.status)">{{ record.status }}</span></td>
+          <td><div class="management-table__actions"><a class="btn btn-sm btn-outline-primary" [routerLink]="[record.id]">Edit</a></div></td>
+        </tr>
+      </ng-template>
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="7">
+            <div class="empty-state">
+              <h2 class="empty-state__title">No attendance records found</h2>
+              <p class="empty-state__description">Attendance records will appear here when they are created.</p>
+              <div class="empty-state__actions"><a class="btn btn-primary" routerLink="add">Create Attendance</a></div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  }
+</section>

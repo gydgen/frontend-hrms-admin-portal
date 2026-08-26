@@ -1,0 +1,59 @@
+<header class="form-page__header">
+  <div>
+    <h1 class="section-header__title">Adjust Leave Balance</h1>
+    <p class="section-header__description">
+      Manually correct an employee's allocated days for one leave type and year. This does not
+      change used days — those only move when a leave request is approved or cancelled.
+    </p>
+  </div>
+
+  <a class="btn btn-outline-secondary" (click)="cancelEdit()">Back</a>
+</header>
+
+@if (value(); as balance) {
+  <section class="form-page__content">
+    <fieldset class="form-fieldset">
+      <legend class="form-fieldset__legend">Balance Details</legend>
+
+      <dl class="detail-page__definitions">
+        <dt>Leave type</dt>
+        <dd>{{ balance.leaveType?.name ?? '—' }}</dd>
+        <dt>Year</dt>
+        <dd>{{ balance.year }}</dd>
+        <dt>Used days</dt>
+        <dd>{{ balance.usedDays }}</dd>
+        <dt>Remaining days</dt>
+        <dd>{{ balance.remainingDays }}</dd>
+      </dl>
+
+      <form [formGroup]="form" class="form-fieldset__inputs">
+        <div class="form-fieldset__input">
+          <label for="allocatedDays">Allocated days</label>
+          <input
+            id="allocatedDays"
+            type="number"
+            min="0"
+            max="365"
+            class="form-control"
+            formControlName="allocatedDays"
+          />
+          <app-field-error [control]="form.controls.allocatedDays" />
+        </div>
+      </form>
+    </fieldset>
+
+    <div class="form-page__footer-buttons">
+      <button type="button" class="btn btn-outline-secondary" (click)="cancelEdit()">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+    </div>
+  </section>
+} @else {
+  <section class="form-page__content">
+    <div class="empty-state empty-state--error">
+      <span class="material-symbols-outlined empty-state__icon">error</span>
+      <h2 class="empty-state__title">Leave balance not found</h2>
+      <p class="empty-state__description">It may have been removed, or the link is missing its employee/year context.</p>
+      <div class="empty-state__actions"><a class="btn btn-primary" routerLink="../">Back to Leave Balances</a></div>
+    </div>
+  </section>
+}

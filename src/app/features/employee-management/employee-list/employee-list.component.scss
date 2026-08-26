@@ -1,0 +1,89 @@
+.employee-table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e9ecef;
+
+  &__actions {
+    order: -1;
+    display: flex;
+    flex: 1 0 100%;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .table-filters {
+    flex: 0 1 680px;
+    margin-left: auto;
+  }
+}
+
+.employee-table {
+  &__identity {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  &__name,
+  &__meta {
+    margin: 0;
+  }
+
+  &__name {
+    font-weight: 600;
+    color: #212529;
+  }
+
+  &__meta {
+    font-size: 0.75rem;
+    color: #6c757d;
+  }
+
+  &__actions,
+  &__actions-heading {
+    text-align: right;
+  }
+}
+
+.employee-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.625rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 999px;
+
+  &--active {
+    color: #047857;
+    background: #d1fae5;
+  }
+
+  &--on-leave {
+    color: #92400e;
+    background: #fef3c7;
+  }
+
+  &--inactive {
+    color: #991b1b;
+    background: #fee2e2;
+  }
+}
+
+::ng-deep {
+  .employee-table {
+    .p-datatable-wrapper {
+      overflow-x: auto;
+    }
+
+    .p-datatable-thead > tr > th,
+    .p-datatable-tbody > tr > td {
+      padding: 0.875rem 1rem;
+    }
+  }
+}

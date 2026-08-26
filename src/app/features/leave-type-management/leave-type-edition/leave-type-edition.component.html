@@ -1,0 +1,64 @@
+<header class="form-page__header">
+  <div>
+    <h1 class="section-header__title">{{ isNew() ? 'Add Leave Type' : 'Edit Leave Type' }}</h1>
+    <p class="section-header__description">
+      Capture the leave type name, default day allocation, and approval/payment rules.
+    </p>
+  </div>
+
+  <a class="btn btn-outline-secondary" routerLink="../">Back</a>
+</header>
+
+<section class="form-page__content">
+  <form [formGroup]="form" class="form-fieldset">
+    <legend class="form-fieldset__legend">Leave Type Details</legend>
+
+    <div class="form-fieldset__inputs">
+      <div class="form-fieldset__inputs-grid">
+        <div class="form-fieldset__input">
+          <label for="name">Leave type name</label>
+          <input id="name" class="form-control" formControlName="name" />
+          <app-field-error [control]="form.controls.name" />
+        </div>
+
+        <div class="form-fieldset__input">
+          <label for="defaultDaysPerYear">Default days per year</label>
+          <input
+            id="defaultDaysPerYear"
+            type="number"
+            min="0"
+            max="365"
+            class="form-control"
+            formControlName="defaultDaysPerYear"
+          />
+          <app-field-error [control]="form.controls.defaultDaysPerYear" />
+        </div>
+      </div>
+
+      <div class="form-fieldset__input form-fieldset__input--full">
+        <label for="description">Description</label>
+        <textarea id="description" class="form-control" rows="3" formControlName="description"></textarea>
+      </div>
+
+      <div class="form-fieldset__input form-fieldset__input--switch">
+        <input id="requiresApproval" type="checkbox" class="form-check-input" formControlName="requiresApproval" />
+        <label for="requiresApproval">Requires approval</label>
+      </div>
+
+      <div class="form-fieldset__input form-fieldset__input--switch">
+        <input id="isPaid" type="checkbox" class="form-check-input" formControlName="isPaid" />
+        <label for="isPaid">Paid leave</label>
+      </div>
+
+      <div class="form-fieldset__input form-fieldset__input--switch">
+        <input id="isActive" type="checkbox" class="form-check-input" formControlName="isActive" />
+        <label for="isActive">Active</label>
+      </div>
+    </div>
+  </form>
+
+  <div class="form-page__footer-buttons">
+    <button type="button" class="btn btn-outline-secondary" (click)="cancelEdit()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+  </div>
+</section>

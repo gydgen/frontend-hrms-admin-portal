@@ -1,0 +1,32 @@
+<header class="form-page__header">
+  <div>
+    <h1 class="section-header__title">{{ isNew() ? 'Add Department' : 'Edit Department' }}</h1>
+    <p class="section-header__description">Capture the department name and an optional description.</p>
+  </div>
+
+  <a class="btn btn-outline-secondary" routerLink="../">Back</a>
+</header>
+
+<section class="form-page__content">
+  <form [formGroup]="form" class="form-fieldset">
+    <legend class="form-fieldset__legend">Department Details</legend>
+
+    <div class="form-fieldset__inputs">
+      <div class="form-fieldset__input">
+        <label for="name">Department name</label>
+        <input id="name" class="form-control" formControlName="name" />
+        <app-field-error [control]="form.controls.name" />
+      </div>
+
+      <div class="form-fieldset__input">
+        <label for="description">Description</label>
+        <textarea id="description" class="form-control" rows="3" formControlName="description"></textarea>
+      </div>
+    </div>
+  </form>
+
+  <div class="form-page__footer-buttons">
+    <button type="button" class="btn btn-outline-secondary" (click)="cancelEdit()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+  </div>
+</section>

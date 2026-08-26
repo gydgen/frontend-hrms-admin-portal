@@ -1,0 +1,156 @@
+<header class="form-page__header">
+  <div>
+    <h1 class="section-header__title">{{ isNew() ? 'Add Employee' : 'Edit Employee' }}</h1>
+    <p class="section-header__description">Capture personal, employment, and contact details.</p>
+  </div>
+
+  <a class="btn btn-outline-secondary" routerLink="../">Back</a>
+</header>
+
+<section class="form-page__content">
+  <form [formGroup]="form">
+    <fieldset class="form-fieldset">
+      <legend class="form-fieldset__legend">Personal Details</legend>
+
+      <div class="form-fieldset__inputs">
+        <div class="form-fieldset__inputs-grid">
+          <div class="form-fieldset__input">
+            <label for="firstName">First name</label>
+            <input id="firstName" class="form-control" formControlName="firstName" />
+            <app-field-error [control]="form.controls.firstName" />
+          </div>
+
+          <div class="form-fieldset__input">
+            <label for="lastName">Last name</label>
+            <input id="lastName" class="form-control" formControlName="lastName" />
+            <app-field-error [control]="form.controls.lastName" />
+          </div>
+
+          <div class="form-fieldset__input">
+            <label for="email">Email</label>
+            <input id="email" type="email" class="form-control" formControlName="email" />
+            <app-field-error [control]="form.controls.email" />
+          </div>
+
+          <div class="form-fieldset__input">
+            <label for="phone">Phone</label>
+            <input id="phone" class="form-control" formControlName="phone" />
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset">
+      <legend class="form-fieldset__legend">Employment Details</legend>
+
+      <div class="form-fieldset__inputs">
+        <div class="form-fieldset__inputs-grid">
+          <div class="form-fieldset__input">
+            <label for="employeeNumber">Employee number</label>
+            <input id="employeeNumber" class="form-control" formControlName="employeeNumber" />
+            <app-field-error [control]="form.controls.employeeNumber" />
+          </div>
+
+          <div class="form-fieldset__input">
+            <label for="departmentId">Department</label>
+            <select id="departmentId" class="form-select" formControlName="departmentId">
+              <option [ngValue]="null">No department</option>
+              @for (department of departments.value(); track department.id) {
+                <option [ngValue]="department.id">{{ department.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-fieldset__input">
+            <label for="jobTitleId">Job title</label>
+            <select id="jobTitleId" class="form-select" formControlName="jobTitleId">
+              <option [ngValue]="null">No job title</option>
+              @for (jobTitle of jobTitles.value(); track jobTitle.id) {
+                <option [ngValue]="jobTitle.id">{{ jobTitle.title }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-fieldset__input">
+            <label for="managerId">Manager</label>
+            <select id="managerId" class="form-select" formControlName="managerId">
+              <option [ngValue]="null">No manager</option>
+              @for (manager of managerOptions(); track manager.id) {
+                <option [ngValue]="manager.id">{{ manager.firstName }} {{ manager.lastName }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-fieldset__input">
+            <label for="employmentType">Employment type</label>
+            <select id="employmentType" class="form-select" formControlName="employmentType">
+              @for (option of employmentTypes; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+          </div>
+
+          @if (!isNew()) {
+            <div class="form-fieldset__input">
+              <label for="status">Status</label>
+              <select id="status" class="form-select" formControlName="status">
+                @for (option of statuses; track option.value) {
+                  <option [value]="option.value">{{ option.label }}</option>
+                }
+              </select>
+            </div>
+          }
+
+          <div class="form-fieldset__input">
+            <label for="hireDate">Hire date</label>
+            <input id="hireDate" type="date" class="form-control" formControlName="hireDate" />
+            <app-field-error [control]="form.controls.hireDate" />
+          </div>
+
+          @if (!isNew()) {
+            <div class="form-fieldset__input">
+              <label for="terminationDate">Termination date</label>
+              <input id="terminationDate" type="date" class="form-control" formControlName="terminationDate" />
+            </div>
+          }
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-fieldset" *hasRole="permissions.EMPLOYEE_MANAGE_SENSITIVE">
+      <legend class="form-fieldset__legend">Sensitive Information</legend>
+      <p class="form-fieldset__description">
+        Salary and bank details are only visible to roles with permission to manage sensitive employee data.
+      </p>
+
+      <div class="form-fieldset__inputs">
+        <div class="form-fieldset__inputs-grid">
+          <div class="form-fieldset__input">
+            <label for="salary">Salary</label>
+            <input id="salary" type="number" min="0" step="0.01" class="form-control" formControlName="salary" />
+          </div>
+
+          <div class="form-fieldset__input">
+            <label for="nationalId">National ID</label>
+            <input id="nationalId" class="form-control" formControlName="nationalId" />
+          </div>
+
+          <div class="form-fieldset__input">
+            <label for="bankName">Bank name</label>
+            <input id="bankName" class="form-control" formControlName="bankName" />
+          </div>
+
+          <div class="form-fieldset__input">
+            <label for="bankAccountNumber">Bank account number</label>
+            <input id="bankAccountNumber" class="form-control" formControlName="bankAccountNumber" />
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+  <div class="form-page__footer-buttons">
+    <button type="button" class="btn btn-outline-secondary" (click)="cancelEdit()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+  </div>
+</section>

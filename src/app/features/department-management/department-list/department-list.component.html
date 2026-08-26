@@ -1,0 +1,98 @@
+<header class="list-page__header">
+  <div>
+    <h1 class="section-header__title">Departments</h1>
+    <p class="section-header__description">Review and manage company departments.</p>
+  </div>
+
+  <a class="btn btn-primary" routerLink="add" *hasRole="permissions.DEPARTMENT_CREATE">Add Department</a>
+</header>
+
+<section class="list-page__content">
+  <div class="table-toolbar">
+    <p class="list-page__count">{{ paginatedData.value()?.total ?? 0 }} departments</p>
+    <div class="table-filters">
+      <label class="table-filters__field table-filters__field--wide">
+        <span>Search</span>
+        <input
+          type="search"
+          class="form-control form-control-sm"
+          placeholder="Department name..."
+          [ngModel]="searchTerm()"
+          (ngModelChange)="onSearch($event)"
+        />
+      </label>
+    </div>
+  </div>
+
+  @if (paginatedData.error()) {
+    <div class="empty-state empty-state--error">
+      <span class="material-symbols-outlined empty-state__icon">error</span>
+      <h2 class="empty-state__title">Unable to load departments</h2>
+      <p class="empty-state__description">Something went wrong while loading departments.</p>
+      <div class="empty-state__actions">
+        <button type="button" class="btn btn-primary" (click)="paginatedData.reload()">Try Again</button>
+      </div>
+    </div>
+  } @else {
+    <p-table
+      [value]="paginatedData.value()?.data ?? []"
+      [loading]="paginatedData.isLoading()"
+      [lazy]="true"
+      [paginator]="true"
+      [rows]="perPage()"
+      [totalRecords]="paginatedData.value()?.total ?? 0"
+      [rowsPerPageOptions]="[10, 20, 50]"
+      [tableStyle]="{ 'min-width': '48rem' }"
+      styleClass="management-table"
+      (onLazyLoad)="onLazyLoad($event)"
+    >
+      <ng-template #header>
+        <tr>
+          @for (col of headers; track col.field) {
+            <th>{{ col.header }}</th>
+          }
+          <th class="management-table__actions-heading">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-department>
+        <tr>
+          <td><div class="management-table__name">{{ department.name }}</div></td>
+          <td>{{ department.description || '—' }}</td>
+          <td>
+            <div class="management-table__actions">
+              <a
+                class="btn btn-sm btn-outline-primary"
+                [routerLink]="[department.id]"
+                *hasRole="permissions.DEPARTMENT_UPDATE"
+                >Edit</a
+              >
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-danger"
+                (click)="delete(department)"
+                *hasRole="permissions.DEPARTMENT_DELETE"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="3">
+            <div class="empty-state">
+              <h2 class="empty-state__title">No departments found</h2>
+              <p class="empty-state__description">Departments will appear here when they are created.</p>
+              <div class="empty-state__actions">
+                <a class="btn btn-primary" routerLink="add" *hasRole="permissions.DEPARTMENT_CREATE"
+                  >Create Department</a
+                >
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  }
+</section>

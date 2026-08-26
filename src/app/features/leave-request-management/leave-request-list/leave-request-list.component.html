@@ -1,0 +1,103 @@
+<header class="list-page__header">
+  <div>
+    <h1 class="section-header__title">Leave Requests</h1>
+    <p class="section-header__description">Review and manage employee leave requests.</p>
+  </div>
+
+  <a class="btn btn-primary" routerLink="add">Add Leave Request</a>
+</header>
+
+<section class="list-page__content">
+  <div class="table-toolbar">
+    <p class="list-page__count">{{ tableRows.length }} leave requests</p>
+    <div class="table-filters">
+      <label class="table-filters__field">
+        <span>Search</span>
+        <input type="search" class="form-control form-control-sm" placeholder="Employee, type, date..." [(ngModel)]="searchTerm" />
+      </label>
+      <label class="table-filters__field">
+        <span>Type</span>
+        <select class="form-select form-select-sm" [(ngModel)]="typeFilter">
+          <option value="">All types</option>
+          @for (type of leaveTypes; track type) {
+            <option [value]="type">{{ type }}</option>
+          }
+        </select>
+      </label>
+      <label class="table-filters__field">
+        <span>Status</span>
+        <select class="form-select form-select-sm" [(ngModel)]="statusFilter">
+          <option value="">All statuses</option>
+          @for (status of statuses; track status) {
+            <option [value]="status">{{ status }}</option>
+          }
+        </select>
+      </label>
+    </div>
+    <div class="table-toolbar__actions" aria-label="Leave request table states">
+      <button type="button" class="btn btn-sm" [class.btn-primary]="tableState === 'loaded'" [class.btn-outline-primary]="tableState !== 'loaded'" (click)="setTableState('loaded')">Loaded</button>
+      <button type="button" class="btn btn-sm" [class.btn-primary]="tableState === 'loading'" [class.btn-outline-primary]="tableState !== 'loading'" (click)="setTableState('loading')">Loading</button>
+      <button type="button" class="btn btn-sm" [class.btn-primary]="tableState === 'empty'" [class.btn-outline-primary]="tableState !== 'empty'" (click)="setTableState('empty')">Empty</button>
+      <button type="button" class="btn btn-sm" [class.btn-danger]="tableState === 'error'" [class.btn-outline-danger]="tableState !== 'error'" (click)="setTableState('error')">Error</button>
+    </div>
+  </div>
+
+  @if (hasError) {
+    <div class="empty-state empty-state--error">
+      <span class="material-symbols-outlined empty-state__icon">error</span>
+      <h2 class="empty-state__title">Unable to load leave requests</h2>
+      <p class="empty-state__description">Something went wrong while loading leave requests.</p>
+      <div class="empty-state__actions">
+        <button type="button" class="btn btn-primary" (click)="setTableState('loaded')">Try Again</button>
+      </div>
+    </div>
+  } @else {
+    <p-table [value]="tableRows" [loading]="isLoading" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 25]" [tableStyle]="{ 'min-width': '58rem' }" styleClass="management-table">
+      <ng-template #header>
+        <tr>
+          <th pSortableColumn="id">
+            Request <p-sortIcon field="id" />
+          </th>
+          <th pSortableColumn="employee">
+            Employee <p-sortIcon field="employee" />
+          </th>
+          <th pSortableColumn="type">
+            Type <p-sortIcon field="type" />
+          </th>
+          <th pSortableColumn="dates">
+            Dates <p-sortIcon field="dates" />
+          </th>
+          <th pSortableColumn="days">
+            Days <p-sortIcon field="days" />
+          </th>
+          <th pSortableColumn="status">
+            Status <p-sortIcon field="status" />
+          </th>
+          <th class="management-table__actions-heading">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-request>
+        <tr>
+          <td>{{ request.id }}</td>
+          <td>{{ request.employee }}</td>
+          <td>{{ request.type }}</td>
+          <td>{{ request.dates }}</td>
+          <td>{{ request.days }}</td>
+          <td><span [class]="getStatusClass(request.status)">{{ request.status }}</span></td>
+          <td><div class="management-table__actions"><a class="btn btn-sm btn-outline-primary" [routerLink]="[request.id]">Edit</a></div></td>
+        </tr>
+      </ng-template>
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="7">
+            <div class="empty-state">
+              <h2 class="empty-state__title">No leave requests found</h2>
+              <p class="empty-state__description">Leave requests will appear here when they are created.</p>
+              <div class="empty-state__actions"><a class="btn btn-primary" routerLink="add">Create Leave Request</a></div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  }
+</section>

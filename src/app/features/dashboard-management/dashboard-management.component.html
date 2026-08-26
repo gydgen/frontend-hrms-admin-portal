@@ -14,7 +14,7 @@
           <span class="material-symbols-outlined">dashboard</span> Dashboard</a
         >
 
-        <div
+        <!-- <div
           data-bs-toggle="collapse"
           href="#permissions"
           role="button"
@@ -32,7 +32,7 @@
             <ul class="navbar-menu-sub">
               <li class="nav-sub-item">
                 <a
-                  [routerLink]="['departments']"
+                  [routerLink]="['department']"
                   routerLinkActive="active-link"
                   class="nav-sub-link"
                   ><span class="material-symbols-outlined">apartment</span>Departments</a
@@ -40,21 +40,48 @@
               </li>
             </ul>
           </div>
-        </div>
+        </div> -->
 
         <p>Employee Management</p>
-        <a [routerLink]="['manage-employees']" routerLinkActive="active-link">
+        <a [routerLink]="['employee']" routerLinkActive="active-link" *hasRole="permissions.EMPLOYEE_VIEW">
           <span class="material-symbols-outlined">people</span>Employees</a
         >
-        <a [routerLink]="['manage-roles']" routerLinkActive="active-link">
-          <span class="material-symbols-outlined">badge</span>Roles</a
+        <a [routerLink]="['leave-request']" routerLinkActive="active-link" *hasRole="permissions.LEAVE_VIEW">
+          <span class="material-symbols-outlined">event_available</span>Leave Requests</a
+        >
+        <a [routerLink]="['leave-type']" routerLinkActive="active-link" *hasRole="permissions.LEAVETYPE_VIEW">
+          <span class="material-symbols-outlined">rule</span>Leave Types</a
+        >
+        <a [routerLink]="['leave-balance']" routerLinkActive="active-link" *hasRole="permissions.LEAVE_VIEW">
+          <span class="material-symbols-outlined">event_repeat</span>Leave Balances</a
+        >
+        <!-- Attendance has no backend module or permission yet (see AGENT.md) — left ungated rather than gated on an invented permission. -->
+        <a [routerLink]="['attendance']" routerLinkActive="active-link">
+          <span class="material-symbols-outlined">fact_check</span>Attendance</a
+        >
+
+        <p>Payroll Management</p>
+        <a [routerLink]="['payroll']" routerLinkActive="active-link" *hasRole="permissions.PAYROLL_VIEW">
+          <span class="material-symbols-outlined">payments</span>Payroll</a
         >
 
         <p>Organizational Management</p>
-        <a [routerLink]="['access-roles']" routerLinkActive="active-link">
-          <span class="material-symbols-outlined">admin_panel_settings</span>
-          Access Roles</a
+        <a [routerLink]="['department']" routerLinkActive="active-link" *hasRole="permissions.DEPARTMENT_VIEW">
+          <span class="material-symbols-outlined">apartment</span>Departments</a
         >
+        <a [routerLink]="['job-title']" routerLinkActive="active-link" *hasRole="permissions.JOBTITLE_VIEW">
+          <span class="material-symbols-outlined">badge</span>Job Titles</a
+        >
+        <a [routerLink]="['role']" routerLinkActive="active-link" *hasRole="permissions.ROLE_VIEW">
+          <span class="material-symbols-outlined">admin_panel_settings</span>Roles</a
+        >
+        <a [routerLink]="['user']" routerLinkActive="active-link" *hasRole="permissions.USER_VIEW">
+          <span class="material-symbols-outlined">group</span>Users</a
+        >
+        <a [routerLink]="['organization']" routerLinkActive="active-link" *hasRole="permissions.TENANT_MANAGE">
+          <span class="material-symbols-outlined">domain</span>Organization Settings</a
+        >
+
         <a [routerLink]="['account-settings']" routerLinkActive="active-link">
           <span class="material-symbols-outlined">settings</span>
           Account Settings</a

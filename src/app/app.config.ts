@@ -7,7 +7,14 @@ import {
 } from '@angular/core';
 import { TenantService } from './core/services/tenant.service';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { isActive, IsActiveMatchOptions, provideRouter, Router, withViewTransitions } from '@angular/router';
+import {
+  isActive,
+  IsActiveMatchOptions,
+  provideRouter,
+  Router,
+  withComponentInputBinding,
+  withViewTransitions,
+} from '@angular/router';
 import Aura from '@primeuix/themes/aura';
 import { definePreset } from '@primeuix/themes';
 import { routes } from './app.routes';
@@ -38,7 +45,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideAppInitializer(() => inject(TenantService).init()),
-    provideRouter(routes, withViewTransitions({
+    provideRouter(routes, withComponentInputBinding(), withViewTransitions({
         onViewTransitionCreated: ({ transition }) => {
             const router = inject(Router);
             const targetUrl = router.currentNavigation()!.finalUrl!;

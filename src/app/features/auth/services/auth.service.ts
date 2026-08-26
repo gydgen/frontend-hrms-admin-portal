@@ -13,7 +13,8 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import dayjs from 'dayjs';
-import { catchError, finalize, firstValueFrom, Observable, of, tap } from 'rxjs';
+import { catchError, finalize, firstValueFrom, map, Observable, of, tap } from 'rxjs';
+import { ApiResponse } from '../../../shared/models/api-response';
 import { ChangePasswordData, ResetPasswordData } from '../interface/auth-service';
 import { environment } from '../../../../environments/environment';
 import {
@@ -23,9 +24,12 @@ import {
 	SEND_PASSWORD_RESET_ENDPOINT
 } from '../../auth/interface/constants';
 import { LoginResponse } from '../interface/login-response';
-import { User } from '../interface/user';
+import { Role, User } from '../interface/user';
 import { isDefined } from '../../../shared/utils/object';
 import { Store } from '@ngrx/store';
+
+/** Matches backend-hrms's `SYSTEM_ROLE_SLUGS.SUPER_ADMIN`. */
+const SUPER_ADMIN_ROLE_SLUG = 'super-admin';
 
 @Injectable({
   providedIn: 'root',
@@ -76,14 +80,17 @@ export class AuthService {
   user: Signal<User | null | undefined> = computed(() => this.userResource.value());
 
   /**
-   * Computed signal of the current user's roles.
+   * Computed signal of the current user's flat permission strings (e.g.
+   * 'department.view') — the actual authorization key. See the `User` interface
+   * doc comment for why this, not `roles`, is what permission checks use.
    */
-  roles: Signal<Array<string>> = computed(() => {
-    if (!this.user()) {
-      return [];
-    }
-    return this.user()?.roles ?? [];
-  });
+  permissions: Signal<Array<string>> = computed(() => this.user()?.permissions ?? []);
+
+  /**
+   * Computed signal of the current user's active roles — for display only
+   * (e.g. an account settings page), not itself used for permission checks.
+   */
+  roles: Signal<Array<Role>> = computed(() => this.user()?.roles ?? []);
 
   // ------------------------
   // Session management methods
@@ -245,13 +252,13 @@ export class AuthService {
   }
 
   /**
-   * Fetches the current user's information from the API.
-   * Handles errors by logging out and redirecting to login page.
+   * Fetches the current user's profile, permissions, and roles from the API.
    *
    * @returns An observable of the current user or null if not available.
    */
   getUser(): Observable<User | null> {
-    return this.#http.get<User>(`${environment.apiUrl}/users/me`).pipe(
+    return this.#http.get<ApiResponse<User>>(`${environment.apiUrl}/auth/me`).pipe(
+      map((res) => res.data),
       catchError((error) => {
         console.error('getUser error:', error);
         return of(null);
@@ -271,51 +278,38 @@ export class AuthService {
   // ------------------------
 
   /**
-   * Checks if a user has any roles matching the specified scope.
-   *
-   * @param user The user object to check roles for.
-   * @param scope Array of role names to check against.
-   * @returns True if user has at least one matching role, false otherwise.
-   */
-  hasSomeScope(user: User, scope: string[]): boolean {
-    const lowerCaseScope = scope.map((role) => role.toLowerCase());
-    const roles = user.roles;
-
-    return roles?.some((role: string) => lowerCaseScope.includes(role.toLowerCase())) ?? false;
-  }
-
-  /**
    * Checks if the current user has all specified permissions.
    *
-   * @param roleNames A role name or array of role names to check.
+   * @param permissionNames A permission string or array of permission strings to check
+   *   (e.g. 'department.view' — see backend-hrms's PERMISSIONS catalog).
    * @returns True if user has every specified permission, false otherwise.
    */
-  hasPermissions(roleNames: string | string[]): boolean {
+  hasPermissions(permissionNames: string | string[]): boolean {
     if (!this.user()) {
       return false;
     }
 
-    const userRoles = this.roles().map((r) => r.toLowerCase());
-    const roles = Array.isArray(roleNames) ? roleNames : [roleNames];
+    const userPermissions = this.permissions().map((p) => p.toLowerCase());
+    const required = Array.isArray(permissionNames) ? permissionNames : [permissionNames];
 
-    return roles.every((role: string) => userRoles.includes(role.toLowerCase()));
+    return required.every((permission: string) => userPermissions.includes(permission.toLowerCase()));
   }
 
   /**
    * Checks if the current user has any of the specified permissions.
    *
-   * @param roleNames A role name or array of role names to check.
+   * @param permissionNames A permission string or array of permission strings to check.
    * @returns True if user has at least one of the specified permissions, false otherwise.
    */
-  hasSomePermissions(roleNames: string | string[]): boolean {
+  hasSomePermissions(permissionNames: string | string[]): boolean {
     if (!this.user()) {
       return false;
     }
 
-    const userRoles = this.roles().map((r) => r.toLowerCase());
-    const roles = Array.isArray(roleNames) ? roleNames : [roleNames];
+    const userPermissions = this.permissions().map((p) => p.toLowerCase());
+    const required = Array.isArray(permissionNames) ? permissionNames : [permissionNames];
 
-    return roles.some((role: string) => userRoles.includes(role.toLowerCase()));
+    return required.some((permission: string) => userPermissions.includes(permission.toLowerCase()));
   }
 
   /**
@@ -343,15 +337,17 @@ export class AuthService {
   }
 
   /**
-   * Checks if the current user has the admin role.
+   * Checks if the current user holds the seeded Super Admin role — matches
+   * backend-hrms's `SYSTEM_ROLE_SLUGS.SUPER_ADMIN`. In practice a Super Admin's
+   * `permissions` array already contains every permission in the catalog (the
+   * backend grants it directly, not via a special bypass), so this exists as an
+   * explicit, defensive check rather than something `hasPermissions` needs to
+   * pass on its own.
    *
-   * @returns True if user is admin, false otherwise.
+   * @returns True if user is a Super Admin, false otherwise.
    */
   isAdmin(): boolean {
-    const userRoles = this.roles().map((role) => role.toLowerCase());
-    const adminRole = environment.auth.adminRole.toLowerCase();
-
-    return userRoles.includes(adminRole);
+    return this.roles().some((role) => role.slug === SUPER_ADMIN_ROLE_SLUG);
   }
 
   // /**

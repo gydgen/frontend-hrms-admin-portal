@@ -1,0 +1,83 @@
+<header class="form-page__header">
+  <div>
+    <h1 class="section-header__title">{{ isNew() ? 'Add Role' : 'Edit Role' }}</h1>
+    <p class="section-header__description">Capture the role name, data scope, and module permissions.</p>
+  </div>
+
+  <a class="btn btn-outline-secondary" routerLink="../">Back</a>
+</header>
+
+@if (isSystemRole()) {
+  <div class="form-page__alert">This is a system role and cannot be modified.</div>
+}
+
+<section class="form-page__content">
+  <form [formGroup]="form" class="form-fieldset">
+    <legend class="form-fieldset__legend">Role Details</legend>
+
+    <div class="form-fieldset__inputs">
+      <div class="form-fieldset__inputs-grid">
+        <div class="form-fieldset__input">
+          <label for="name">Role name</label>
+          <input id="name" class="form-control" formControlName="name" />
+          <app-field-error [control]="form.controls.name" />
+        </div>
+
+        <div class="form-fieldset__input">
+          <label for="dataScope">Data scope</label>
+          <select id="dataScope" class="form-select" formControlName="dataScope">
+            @for (scope of dataScopes; track scope.value) {
+              <option [value]="scope.value">{{ scope.label }}</option>
+            }
+          </select>
+          @for (scope of dataScopes; track scope.value) {
+            @if (scope.value === form.controls.dataScope.value) {
+              <p class="form-fieldset__help">{{ scope.description }}</p>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="form-fieldset__input form-fieldset__input--full">
+        <label for="description">Description</label>
+        <textarea id="description" class="form-control" rows="2" formControlName="description"></textarea>
+      </div>
+
+      <div class="form-fieldset__input form-fieldset__input--switch">
+        <input id="isActive" type="checkbox" class="form-check-input" formControlName="isActive" />
+        <label for="isActive">Active</label>
+      </div>
+    </div>
+  </form>
+
+  <fieldset class="form-fieldset permission-matrix" [disabled]="isSystemRole()" *hasRole="permissions.ROLE_MANAGE_PERMISSIONS">
+    <legend class="form-fieldset__legend">Module Permissions</legend>
+    <p class="form-fieldset__description">Choose what this role can see and do in each module.</p>
+
+    <div class="form-fieldset__inputs">
+      @for (group of permissionGroups; track group.module) {
+        <div class="permission-matrix__group">
+          <p class="permission-matrix__group-label">{{ group.label }}</p>
+          <div class="permission-matrix__row">
+            @for (permission of group.permissions; track permission.value) {
+              <label class="permission-matrix__checkbox">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  [checked]="isChecked(group.module, permission.value)"
+                  (change)="togglePermission(group.module, permission.value, $any($event.target).checked)"
+                />
+                {{ permission.label }}
+              </label>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </fieldset>
+
+  <div class="form-page__footer-buttons">
+    <button type="button" class="btn btn-outline-secondary" (click)="cancelEdit()">Cancel</button>
+    <button type="button" class="btn btn-primary" [disabled]="isSystemRole()" (click)="save()">Save</button>
+  </div>
+</section>

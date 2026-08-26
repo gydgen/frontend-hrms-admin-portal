@@ -2,10 +2,11 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { ToastrComponent } from './shared/toastr/toastr.component';
 import { GeneralLoaderComponent } from './shared/general-loader/general-loader.component';
+import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ToastrComponent, GeneralLoaderComponent],
+  imports: [RouterOutlet, ToastrComponent, GeneralLoaderComponent, ConfirmDialogComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

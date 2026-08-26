@@ -48,7 +48,7 @@
           <app-form-input name="email" [formGroup]="form" type="text" placeholder="Work email" />
 
           <app-form-input
-            name="companyName"
+            name="organisationName"
             [formGroup]="form"
             type="text"
             placeholder="Company name"
@@ -87,17 +87,17 @@
           <!-- Terms -->
           <div class="form-check mb-3 mt-2">
             <input
-              id="agreeTerms"
+              id="agreeToTerms"
               type="checkbox"
               class="form-check-input"
-              formControlName="agreeTerms"
+              formControlName="agreeToTerms"
             />
-            <label class="form-check-label small" for="agreeTerms">
+            <label class="form-check-label small" for="agreeToTerms">
               I agree to the
               <a href="#" class="text-decoration-none">Terms of Service</a> and
               <a href="#" class="text-decoration-none">Privacy Policy</a>
             </label>
-            @if (form.get('agreeTerms')?.invalid && form.get('agreeTerms')?.touched) {
+            @if (form.get('agreeToTerms')?.invalid && form.get('agreeToTerms')?.touched) {
               <p class="text-danger small mb-0">You must accept the terms to continue.</p>
             }
           </div>

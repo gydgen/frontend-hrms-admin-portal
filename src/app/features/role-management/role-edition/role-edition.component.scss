@@ -1,0 +1,33 @@
+.permission-matrix {
+  margin-top: 1.25rem;
+}
+
+.permission-matrix__group {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e9ecef;
+
+  &:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+}
+
+.permission-matrix__group-label {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.permission-matrix__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+.permission-matrix__checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+}

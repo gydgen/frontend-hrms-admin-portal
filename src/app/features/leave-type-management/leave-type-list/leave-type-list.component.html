@@ -1,0 +1,101 @@
+<header class="list-page__header">
+  <div>
+    <h1 class="section-header__title">Leave Types</h1>
+    <p class="section-header__description">Configure the leave types available to employees.</p>
+  </div>
+
+  <a class="btn btn-primary" routerLink="add" *hasRole="permissions.LEAVETYPE_CREATE">Add Leave Type</a>
+</header>
+
+<section class="list-page__content">
+  <div class="table-toolbar">
+    <p class="list-page__count">{{ paginatedData.value()?.total ?? 0 }} leave types</p>
+    <div class="table-filters">
+      <label class="table-filters__field table-filters__field--wide">
+        <span>Search</span>
+        <input
+          type="search"
+          class="form-control form-control-sm"
+          placeholder="Leave type..."
+          [ngModel]="searchTerm()"
+          (ngModelChange)="onSearch($event)"
+        />
+      </label>
+    </div>
+  </div>
+
+  @if (paginatedData.error()) {
+    <div class="empty-state empty-state--error">
+      <span class="material-symbols-outlined empty-state__icon">error</span>
+      <h2 class="empty-state__title">Unable to load leave types</h2>
+      <p class="empty-state__description">Something went wrong while loading leave types.</p>
+      <div class="empty-state__actions">
+        <button type="button" class="btn btn-primary" (click)="paginatedData.reload()">Try Again</button>
+      </div>
+    </div>
+  } @else {
+    <p-table
+      [value]="paginatedData.value()?.data ?? []"
+      [loading]="paginatedData.isLoading()"
+      [lazy]="true"
+      [paginator]="true"
+      [rows]="perPage()"
+      [totalRecords]="paginatedData.value()?.total ?? 0"
+      [rowsPerPageOptions]="[10, 20, 50]"
+      [tableStyle]="{ 'min-width': '58rem' }"
+      styleClass="management-table"
+      (onLazyLoad)="onLazyLoad($event)"
+    >
+      <ng-template #header>
+        <tr>
+          @for (col of headers; track col.field) {
+            <th>{{ col.header }}</th>
+          }
+          <th class="management-table__actions-heading">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-leaveType>
+        <tr>
+          <td><div class="management-table__name">{{ leaveType.name }}</div></td>
+          <td>{{ leaveType.defaultDaysPerYear ?? '—' }}</td>
+          <td>{{ leaveType.requiresApproval ? 'Yes' : 'No' }}</td>
+          <td>{{ leaveType.isPaid ? 'Yes' : 'No' }}</td>
+          <td><span [class]="getStatusClass(leaveType.isActive)">{{ leaveType.isActive ? 'Active' : 'Inactive' }}</span></td>
+          <td>
+            <div class="management-table__actions">
+              <a
+                class="btn btn-sm btn-outline-primary"
+                [routerLink]="[leaveType.id]"
+                *hasRole="permissions.LEAVETYPE_UPDATE"
+                >Edit</a
+              >
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-danger"
+                (click)="delete(leaveType)"
+                *hasRole="permissions.LEAVETYPE_DELETE"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="6">
+            <div class="empty-state">
+              <h2 class="empty-state__title">No leave types found</h2>
+              <p class="empty-state__description">Leave types will appear here when they are created.</p>
+              <div class="empty-state__actions">
+                <a class="btn btn-primary" routerLink="add" *hasRole="permissions.LEAVETYPE_CREATE"
+                  >Create Leave Type</a
+                >
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  }
+</section>

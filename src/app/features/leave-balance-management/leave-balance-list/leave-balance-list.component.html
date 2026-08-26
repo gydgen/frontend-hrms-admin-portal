@@ -1,0 +1,105 @@
+<header class="list-page__header">
+  <div>
+    <h1 class="section-header__title">Leave Balances</h1>
+    <p class="section-header__description">View and adjust an employee's leave balances for a year.</p>
+  </div>
+</header>
+
+<section class="list-page__content">
+  <div class="table-toolbar">
+    <p class="list-page__count">{{ balances.value()?.length ?? 0 }} leave types</p>
+    <div class="table-filters">
+      <label class="table-filters__field table-filters__field--wide">
+        <span>Employee</span>
+        <select
+          class="form-select form-select-sm"
+          [ngModel]="selectedEmployeeId()"
+          (ngModelChange)="selectedEmployeeId.set($event)"
+        >
+          @if (!employees.value()?.length) {
+            <option [ngValue]="null">No employees found</option>
+          }
+          @for (employee of employees.value(); track employee.id) {
+            <option [ngValue]="employee.id">{{ employee.firstName }} {{ employee.lastName }}</option>
+          }
+        </select>
+      </label>
+      <label class="table-filters__field">
+        <span>Year</span>
+        <select
+          class="form-select form-select-sm"
+          [ngModel]="selectedYear()"
+          (ngModelChange)="selectedYear.set($event)"
+        >
+          @for (year of years; track year) {
+            <option [ngValue]="year">{{ year }}</option>
+          }
+        </select>
+      </label>
+    </div>
+  </div>
+
+  @if (!employees.value()?.length && !employees.isLoading()) {
+    <div class="empty-state">
+      <h2 class="empty-state__title">No employees found</h2>
+      <p class="empty-state__description">Add an employee before managing leave balances.</p>
+      <div class="empty-state__actions"><a class="btn btn-primary" routerLink="/dashboard/employee/add">Add Employee</a></div>
+    </div>
+  } @else if (balances.error()) {
+    <div class="empty-state empty-state--error">
+      <span class="material-symbols-outlined empty-state__icon">error</span>
+      <h2 class="empty-state__title">Unable to load leave balances</h2>
+      <p class="empty-state__description">Something went wrong while loading leave balances.</p>
+      <div class="empty-state__actions">
+        <button type="button" class="btn btn-primary" (click)="balances.reload()">Try Again</button>
+      </div>
+    </div>
+  } @else {
+    <p-table
+      [value]="balances.value() ?? []"
+      [loading]="balances.isLoading()"
+      [tableStyle]="{ 'min-width': '48rem' }"
+      styleClass="management-table"
+    >
+      <ng-template #header>
+        <tr>
+          <th>Leave Type</th>
+          <th>Allocated Days</th>
+          <th>Used Days</th>
+          <th>Remaining Days</th>
+          <th class="management-table__actions-heading">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-balance>
+        <tr>
+          <td>{{ balance.leaveType?.name ?? '—' }}</td>
+          <td>{{ balance.allocatedDays }}</td>
+          <td>{{ balance.usedDays }}</td>
+          <td>{{ balance.remainingDays }}</td>
+          <td>
+            <div class="management-table__actions">
+              <a
+                class="btn btn-sm btn-outline-primary"
+                [routerLink]="[balance.id]"
+                [queryParams]="adjustQueryParams()"
+                *hasRole="permissions.LEAVE_MANAGE_BALANCE"
+                >Adjust</a
+              >
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="5">
+            <div class="empty-state">
+              <h2 class="empty-state__title">No leave types configured</h2>
+              <p class="empty-state__description">Balances appear here once at least one active leave type exists.</p>
+              <div class="empty-state__actions"><a class="btn btn-primary" routerLink="/dashboard/leave-type/add">Create Leave Type</a></div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  }
+</section>

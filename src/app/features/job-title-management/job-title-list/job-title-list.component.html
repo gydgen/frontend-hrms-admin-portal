@@ -1,0 +1,98 @@
+<header class="list-page__header">
+  <div>
+    <h1 class="section-header__title">Job Titles</h1>
+    <p class="section-header__description">Review and manage organisation job titles.</p>
+  </div>
+
+  <a class="btn btn-primary" routerLink="add" *hasRole="permissions.JOBTITLE_CREATE">Add Job Title</a>
+</header>
+
+<section class="list-page__content">
+  <div class="table-toolbar">
+    <p class="list-page__count">{{ paginatedData.value()?.total ?? 0 }} job titles</p>
+    <div class="table-filters">
+      <label class="table-filters__field table-filters__field--wide">
+        <span>Search</span>
+        <input
+          type="search"
+          class="form-control form-control-sm"
+          placeholder="Job title..."
+          [ngModel]="searchTerm()"
+          (ngModelChange)="onSearch($event)"
+        />
+      </label>
+    </div>
+  </div>
+
+  @if (paginatedData.error()) {
+    <div class="empty-state empty-state--error">
+      <span class="material-symbols-outlined empty-state__icon">error</span>
+      <h2 class="empty-state__title">Unable to load job titles</h2>
+      <p class="empty-state__description">Something went wrong while loading job titles.</p>
+      <div class="empty-state__actions">
+        <button type="button" class="btn btn-primary" (click)="paginatedData.reload()">Try Again</button>
+      </div>
+    </div>
+  } @else {
+    <p-table
+      [value]="paginatedData.value()?.data ?? []"
+      [loading]="paginatedData.isLoading()"
+      [lazy]="true"
+      [paginator]="true"
+      [rows]="perPage()"
+      [totalRecords]="paginatedData.value()?.total ?? 0"
+      [rowsPerPageOptions]="[10, 20, 50]"
+      [tableStyle]="{ 'min-width': '48rem' }"
+      styleClass="management-table"
+      (onLazyLoad)="onLazyLoad($event)"
+    >
+      <ng-template #header>
+        <tr>
+          @for (col of headers; track col.field) {
+            <th>{{ col.header }}</th>
+          }
+          <th class="management-table__actions-heading">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-jobTitle>
+        <tr>
+          <td><div class="management-table__name">{{ jobTitle.title }}</div></td>
+          <td>{{ departmentName(jobTitle.departmentId) }}</td>
+          <td>
+            <div class="management-table__actions">
+              <a
+                class="btn btn-sm btn-outline-primary"
+                [routerLink]="[jobTitle.id]"
+                *hasRole="permissions.JOBTITLE_UPDATE"
+                >Edit</a
+              >
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-danger"
+                (click)="delete(jobTitle)"
+                *hasRole="permissions.JOBTITLE_DELETE"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="3">
+            <div class="empty-state">
+              <h2 class="empty-state__title">No job titles found</h2>
+              <p class="empty-state__description">Job titles will appear here when they are created.</p>
+              <div class="empty-state__actions">
+                <a class="btn btn-primary" routerLink="add" *hasRole="permissions.JOBTITLE_CREATE"
+                  >Create Job Title</a
+                >
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  }
+</section>

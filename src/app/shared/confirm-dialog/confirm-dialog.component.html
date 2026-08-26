@@ -1,0 +1,28 @@
+@if (confirmDialog.options(); as options) {
+  <div class="confirm-dialog" role="alertdialog" aria-modal="true">
+    <div class="confirm-dialog__panel">
+      @if (options.header) {
+        <header class="confirm-dialog__header">
+          <h2 class="confirm-dialog__title">{{ options.header }}</h2>
+        </header>
+      }
+      @if (options.message) {
+        <div class="confirm-dialog__body">{{ options.message }}</div>
+      }
+      <footer class="confirm-dialog__footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="confirmDialog.cancel()">
+          {{ options.rejectLabel ?? 'Cancel' }}
+        </button>
+        <button
+          type="button"
+          class="btn"
+          [class.btn-danger]="options.severity === 'danger'"
+          [class.btn-primary]="options.severity !== 'danger'"
+          (click)="confirmDialog.accept()"
+        >
+          {{ options.acceptLabel ?? 'Confirm' }}
+        </button>
+      </footer>
+    </div>
+  </div>
+}

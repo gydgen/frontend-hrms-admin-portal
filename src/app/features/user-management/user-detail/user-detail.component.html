@@ -1,0 +1,50 @@
+<header class="detail-page__header">
+  <div>
+    <div class="detail-page__title-row">
+      <h1 class="detail-page__title">{{ user.name }}</h1>
+      <span [class]="getStatusClass(user.status)">{{ user.status }}</span>
+    </div>
+    <p class="detail-page__description">{{ user.email }}</p>
+  </div>
+
+  <div class="detail-page__header-actions">
+    @if (canResendInvite) {
+      <button type="button" class="btn btn-outline-primary" (click)="resendInvite()">Resend Invite</button>
+    }
+    @if (canSuspend) {
+      <button type="button" class="btn btn-outline-danger" (click)="suspend()">Suspend</button>
+    }
+    @if (canDeactivate) {
+      <button type="button" class="btn btn-danger" (click)="deactivate()">Deactivate</button>
+    }
+    <a class="btn btn-outline-secondary" routerLink="../">Back</a>
+  </div>
+</header>
+
+<section class="detail-page__content">
+  <div class="detail-page__panel">
+    <h2 class="detail-page__panel-title">User Details</h2>
+    <dl class="detail-page__definitions">
+      <dt>Full name</dt>
+      <dd>{{ user.name }}</dd>
+      <dt>Email</dt>
+      <dd>{{ user.email }}</dd>
+      <dt>Status</dt>
+      <dd>{{ user.status }}</dd>
+      <dt>Invited by</dt>
+      <dd>{{ user.invitedBy ?? '—' }}</dd>
+      <dt>Created</dt>
+      <dd>{{ user.createdAt }}</dd>
+    </dl>
+  </div>
+
+  <div class="detail-page__panel">
+    <h2 class="detail-page__panel-title">Roles</h2>
+    <dl class="detail-page__definitions">
+      @for (role of user.roles; track role) {
+        <dt>Role</dt>
+        <dd>{{ role }}</dd>
+      }
+    </dl>
+  </div>
+</section>
