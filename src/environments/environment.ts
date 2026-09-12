@@ -12,5 +12,5 @@ export const environment = {
     readRole: 'READ',
   },
   domain: 'testing',
-  apiUrl: 'http://localhost:3000/api',
+  apiUrl: 'https://backend-hrms-production-1ef8.up.railway.app/api',
 };

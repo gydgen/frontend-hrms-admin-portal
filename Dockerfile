@@ -15,7 +15,7 @@ RUN echo "=== Nginx config ===" && \
     cat /etc/nginx/conf.d/default.conf && \
     echo "==================="
 
-EXPOSE 4200
+EXPOSE 80
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
