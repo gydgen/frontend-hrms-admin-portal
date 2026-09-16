@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
+import { MenuModule } from 'primeng/menu';
 import {
   PaginatedTableComponent,
   TableHeader,
@@ -14,7 +15,7 @@ import { RoleService } from '../services/role.service';
 
 @Component({
   selector: 'app-role-list',
-  imports: [FormsModule, RouterLink, TableModule, HasRoleDirective],
+  imports: [FormsModule, RouterLink, TableModule, MenuModule, HasRoleDirective],
   templateUrl: './role-list.component.html',
   styleUrl: './role-list.component.scss',
   host: {

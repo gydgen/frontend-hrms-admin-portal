@@ -451,6 +451,36 @@ $tap-target: 44px;
   .p-datatable-tbody > tr > td {
     padding: $space-3 + 0.125rem $space-4;
   }
+
+  .p-datatable-tbody > tr > td:last-child {
+    text-align: right;
+  }
+}
+
+.action-button {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  color: $text-muted;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: $radius-sm;
+
+  &:hover {
+    color: $text;
+    background: $surface-subtle;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary;
+    outline-offset: 2px;
+  }
+
+  .material-symbols-outlined {
+    font-size: 1.25rem;
+  }
 }
 
 .table-status {

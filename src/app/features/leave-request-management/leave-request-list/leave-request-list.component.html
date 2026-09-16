@@ -84,7 +84,32 @@
           <td>{{ request.dates }}</td>
           <td>{{ request.days }}</td>
           <td><span [class]="getStatusClass(request.status)">{{ request.status }}</span></td>
-          <td><div class="management-table__actions"><a class="btn btn-sm btn-outline-primary" [routerLink]="[request.id]">Edit</a></div></td>
+          <td>
+            <button
+              type="button"
+              class="action-button"
+              aria-label="Open actions"
+              (click)="$event.stopPropagation(); actionMenu.toggle($event)"
+            >
+              <span class="material-symbols-outlined">more_vert</span>
+            </button>
+            <p-menu
+              #actionMenu
+              [model]="[{ label: 'Edit', icon: 'edit', routerLink: [request.id] }]"
+              [popup]="true"
+              [appendTo]="'body'"
+            >
+              <ng-template pTemplate="item" let-item>
+                <a
+                  class="p-menu-item-link w-100 d-flex align-items-center gap-2 text-decoration-none py-2 px-3 text-secondary"
+                  [routerLink]="item.routerLink"
+                >
+                  <span class="material-symbols-outlined">{{ item.icon }}</span>
+                  <span>{{ item.label }}</span>
+                </a>
+              </ng-template>
+            </p-menu>
+          </td>
         </tr>
       </ng-template>
       <ng-template #emptymessage>

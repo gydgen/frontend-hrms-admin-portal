@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
+import { MenuModule } from 'primeng/menu';
 
 type PayrollTableState = 'loaded' | 'loading' | 'empty' | 'error';
 
@@ -16,7 +17,7 @@ interface PayrollRow {
 
 @Component({
   selector: 'app-payroll-list',
-  imports: [FormsModule, RouterLink, TableModule],
+  imports: [FormsModule, RouterLink, TableModule, MenuModule],
   templateUrl: './payroll-list.component.html',
   styleUrl: './payroll-list.component.scss',
   host: {

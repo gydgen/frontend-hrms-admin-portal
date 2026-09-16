@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
+import { MenuModule } from 'primeng/menu';
 import {
   PaginatedTableComponent,
   TableHeader,
@@ -13,7 +14,7 @@ import { DepartmentService } from '../services/department.service';
 
 @Component({
   selector: 'app-department-list',
-  imports: [FormsModule, RouterLink, TableModule, HasRoleDirective],
+  imports: [FormsModule, RouterLink, TableModule, MenuModule, HasRoleDirective],
   templateUrl: './department-list.component.html',
   styleUrl: './department-list.component.scss',
   host: {

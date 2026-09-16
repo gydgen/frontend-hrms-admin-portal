@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
+import { MenuModule } from 'primeng/menu';
 
 type LeaveRequestTableState = 'loaded' | 'loading' | 'empty' | 'error';
 
@@ -16,7 +17,7 @@ interface LeaveRequestRow {
 
 @Component({
   selector: 'app-leave-request-list',
-  imports: [FormsModule, RouterLink, TableModule],
+  imports: [FormsModule, RouterLink, TableModule, MenuModule],
   templateUrl: './leave-request-list.component.html',
   styleUrl: './leave-request-list.component.scss',
   host: {

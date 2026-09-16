@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
+import { MenuModule } from 'primeng/menu';
 
 type AttendanceTableState = 'loaded' | 'loading' | 'empty' | 'error';
 
@@ -16,7 +17,7 @@ interface AttendanceRow {
 
 @Component({
   selector: 'app-attendance-list',
-  imports: [FormsModule, RouterLink, TableModule],
+  imports: [FormsModule, RouterLink, TableModule, MenuModule],
   templateUrl: './attendance-list.component.html',
   styleUrl: './attendance-list.component.scss',
   host: {

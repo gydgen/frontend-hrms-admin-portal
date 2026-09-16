@@ -62,22 +62,46 @@
           <td>{{ leaveType.isPaid ? 'Yes' : 'No' }}</td>
           <td><span [class]="getStatusClass(leaveType.isActive)">{{ leaveType.isActive ? 'Active' : 'Inactive' }}</span></td>
           <td>
-            <div class="management-table__actions">
-              <a
-                class="btn btn-sm btn-outline-primary"
-                [routerLink]="[leaveType.id]"
-                *hasRole="permissions.LEAVETYPE_UPDATE"
-                >Edit</a
-              >
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-danger"
-                (click)="delete(leaveType)"
-                *hasRole="permissions.LEAVETYPE_DELETE"
-              >
-                Delete
-              </button>
-            </div>
+            <button
+              type="button"
+              class="action-button"
+              aria-label="Open actions"
+              (click)="$event.stopPropagation(); actionMenu.toggle($event)"
+            >
+              <span class="material-symbols-outlined">more_vert</span>
+            </button>
+            <p-menu
+              #actionMenu
+              [model]="[
+                { id: 'edit', label: 'Edit', icon: 'edit', routerLink: [leaveType.id] },
+                { id: 'delete', label: 'Delete', icon: 'delete' },
+              ]"
+              [popup]="true"
+              [appendTo]="'body'"
+            >
+              <ng-template pTemplate="item" let-item>
+                @if (item.id === 'edit') {
+                  <a
+                    class="p-menu-item-link w-100 d-flex align-items-center gap-2 text-decoration-none py-2 px-3 text-secondary"
+                    [routerLink]="item.routerLink"
+                    *hasRole="permissions.LEAVETYPE_UPDATE"
+                  >
+                    <span class="material-symbols-outlined">{{ item.icon }}</span>
+                    <span>{{ item.label }}</span>
+                  </a>
+                } @else {
+                  <button
+                    type="button"
+                    class="p-menu-item-link w-100 d-flex align-items-center gap-2 border-0 bg-transparent text-start py-2 px-3 text-secondary"
+                    (click)="delete(leaveType)"
+                    *hasRole="permissions.LEAVETYPE_DELETE"
+                  >
+                    <span class="material-symbols-outlined">{{ item.icon }}</span>
+                    <span>{{ item.label }}</span>
+                  </button>
+                }
+              </ng-template>
+            </p-menu>
           </td>
         </tr>
       </ng-template>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
+import { MenuModule } from 'primeng/menu';
 
 type UserTableState = 'loaded' | 'loading' | 'empty' | 'error';
 type UserStatus = 'ACTIVE' | 'PENDING' | 'SUSPENDED' | 'DEACTIVATED';
@@ -16,7 +17,7 @@ interface UserRow {
 
 @Component({
   selector: 'app-user-list',
-  imports: [FormsModule, RouterLink, TableModule],
+  imports: [FormsModule, RouterLink, TableModule, MenuModule],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss',
   host: {

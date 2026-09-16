@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { TableModule } from 'primeng/table';
+import { MenuModule } from 'primeng/menu';
 import {
   PaginatedTableComponent,
   TableHeader,
@@ -15,7 +16,7 @@ import { JobTitleService } from '../services/job-title.service';
 
 @Component({
   selector: 'app-job-title-list',
-  imports: [FormsModule, RouterLink, TableModule, HasRoleDirective],
+  imports: [FormsModule, RouterLink, TableModule, MenuModule, HasRoleDirective],
   templateUrl: './job-title-list.component.html',
   styleUrl: './job-title-list.component.scss',
   host: {

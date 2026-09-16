@@ -77,15 +77,32 @@
           <td>{{ balance.usedDays }}</td>
           <td>{{ balance.remainingDays }}</td>
           <td>
-            <div class="management-table__actions">
-              <a
-                class="btn btn-sm btn-outline-primary"
-                [routerLink]="[balance.id]"
-                [queryParams]="adjustQueryParams()"
-                *hasRole="permissions.LEAVE_MANAGE_BALANCE"
-                >Adjust</a
-              >
-            </div>
+            <button
+              type="button"
+              class="action-button"
+              aria-label="Open actions"
+              (click)="$event.stopPropagation(); actionMenu.toggle($event)"
+            >
+              <span class="material-symbols-outlined">more_vert</span>
+            </button>
+            <p-menu
+              #actionMenu
+              [model]="[{ label: 'Adjust', icon: 'tune', routerLink: [balance.id] }]"
+              [popup]="true"
+              [appendTo]="'body'"
+            >
+              <ng-template pTemplate="item" let-item>
+                <a
+                  class="p-menu-item-link w-100 d-flex align-items-center gap-2 text-decoration-none py-2 px-3 text-secondary"
+                  [routerLink]="item.routerLink"
+                  [queryParams]="adjustQueryParams()"
+                  *hasRole="permissions.LEAVE_MANAGE_BALANCE"
+                >
+                  <span class="material-symbols-outlined">{{ item.icon }}</span>
+                  <span>{{ item.label }}</span>
+                </a>
+              </ng-template>
+            </p-menu>
           </td>
         </tr>
       </ng-template>

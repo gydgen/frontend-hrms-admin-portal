@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
+import { MenuModule } from 'primeng/menu';
 import {
   PaginatedTableComponent,
   TableHeader,
@@ -13,7 +14,7 @@ import { LeaveTypeService } from '../services/leave-type.service';
 
 @Component({
   selector: 'app-leave-type-list',
-  imports: [FormsModule, RouterLink, TableModule, HasRoleDirective],
+  imports: [FormsModule, RouterLink, TableModule, MenuModule, HasRoleDirective],
   templateUrl: './leave-type-list.component.html',
   styleUrl: './leave-type-list.component.scss',
   host: {

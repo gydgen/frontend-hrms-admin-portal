@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { TableModule } from 'primeng/table';
+import { MenuModule } from 'primeng/menu';
 import {
   PaginatedTableComponent,
   TableHeader,
@@ -16,7 +17,7 @@ import { EmployeeService } from '../services/employee.service';
 
 @Component({
   selector: 'app-employee-list',
-  imports: [FormsModule, RouterLink, TableModule, HasRoleDirective],
+  imports: [FormsModule, RouterLink, TableModule, MenuModule, HasRoleDirective],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.scss',
   host: {
